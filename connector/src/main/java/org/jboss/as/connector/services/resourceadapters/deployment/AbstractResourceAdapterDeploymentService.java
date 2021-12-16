@@ -78,7 +78,6 @@ import org.jboss.jca.core.api.connectionmanager.ccm.CachedConnectionManager;
 import org.jboss.jca.core.api.management.ManagementRepository;
 import org.jboss.jca.core.bootstrapcontext.BootstrapContextCoordinator;
 import org.jboss.jca.core.connectionmanager.ConnectionManager;
-import org.jboss.jca.core.security.picketbox.PicketBoxSubjectFactory;
 import org.jboss.jca.core.spi.mdr.AlreadyExistsException;
 import org.jboss.jca.core.spi.rar.ResourceAdapterRepository;
 import org.jboss.jca.core.spi.security.Callback;
@@ -682,7 +681,11 @@ public abstract class AbstractResourceAdapterDeploymentService {
             } else if (securityDomain == null || securityDomain.trim().equals("")) {
                 return null;
             } else {
-                return new PicketBoxSubjectFactory(subjectFactory.getValue());
+                try {
+                    return new ElytronSubjectFactory(null, new URI(jndiName));
+                } catch (URISyntaxException e) {
+                    throw ConnectorLogger.ROOT_LOGGER.cannotDeploy(e);
+                }
             }
         }
 
