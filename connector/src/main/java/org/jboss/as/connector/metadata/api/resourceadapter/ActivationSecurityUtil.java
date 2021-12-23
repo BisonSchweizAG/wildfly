@@ -75,7 +75,7 @@ public final class ActivationSecurityUtil {
             return false;
         // check if legacy domain is non-null
         final String domain = security.resolveSecurityDomain();
-        return domain != null && domain.trim().length() > 0;
+        return false; //domain != null && domain.trim().length() > 0;
     }
 
     private static boolean isLegacySecurityRequired(org.jboss.jca.common.api.metadata.resourceadapter.WorkManagerSecurity config) {
@@ -87,7 +87,7 @@ public final class ActivationSecurityUtil {
             return false;
         // check if legacy domain is non-null
         final String domain = config.getDomain();
-        return domain != null && domain.trim().length() > 0;
+        return false; //domain != null && domain.trim().length() > 0;
     }
 
     private ActivationSecurityUtil() {}
